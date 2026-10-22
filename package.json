@@ -1,0 +1,12 @@
+{
+  "name": "attention-button",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-eventsource --test \"test/unit/*.test.js\"",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}

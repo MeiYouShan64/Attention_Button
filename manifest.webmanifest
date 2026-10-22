@@ -1,0 +1,11 @@
+{
+  "name": "Attention button",
+  "short_name": "Attention",
+  "description": "Nouzová zpráva jedním stisknutím.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#c62828",
+  "lang": "cs",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

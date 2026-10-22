@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>Attention button</title>
+    <meta name="description" content="Nouzová zpráva jedním stisknutím – z telefonu A přes celou obrazovku na telefon B." />
+    <meta name="theme-color" content="#c62828" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Attention" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="module" src="js/app.js"></script>
+  </head>
+  <body>
+    <main>
+      <!-- Role selection -->
+      <section id="screen-role" hidden>
+        <h1>Attention button</h1>
+        <p class="lead">Co bude tento telefon dělat?</p>
+        <button id="choose-sender" class="big">Tento telefon ODESÍLÁ (A)</button>
+        <button id="choose-receiver" class="big secondary">Tento telefon PŘIJÍMÁ (B)</button>
+        <div id="manual-code-box" class="card" hidden>
+          <label for="manual-code">Kód kanálu od odesílatele</label>
+          <input id="manual-code" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="att-…" />
+          <button id="manual-code-save" class="primary">Uložit</button>
+          <p id="role-error" class="error" role="alert"></p>
+        </div>
+      </section>
+
+      <!-- Sender (A) -->
+      <section id="screen-sender" hidden>
+        <div class="attention-wrap">
+          <button id="attention" aria-describedby="hold-hint">
+            <svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="47" /></svg>
+            <span>Attention button</span>
+          </button>
+        </div>
+        <p id="hold-hint" class="hint">Pro odeslání podržte 1 sekundu</p>
+        <p id="send-status" class="status-line" role="status"></p>
+        <button id="retry" class="primary wide" hidden>Zkusit znovu</button>
+
+        <label for="message">Text zprávy</label>
+        <textarea id="message" maxlength="500" rows="3"></textarea>
+
+        <section class="card">
+          <h2>Spárovat příjemce</h2>
+          <p class="note">Kód kanálu: <code id="code-sender"></code></p>
+          <label for="receiver-link">Odkaz pro příjemce</label>
+          <input id="receiver-link" readonly />
+          <button id="share-link" class="primary">Poslat odkaz příjemci</button>
+          <p id="share-status" class="note" role="status"></p>
+          <button id="new-code" class="link">Nový kód</button>
+        </section>
+        <button id="change-role-sender" class="link">Změnit roli</button>
+      </section>
+
+      <!-- Receiver (B) -->
+      <section id="screen-receiver" hidden>
+        <h1>Příjem zpráv</h1>
+        <p id="conn-status" class="status">Připojuji…</p>
+        <button id="enable-sound" class="big secondary">🔊 Povolit zvuk na této stránce</button>
+        <p id="ack-error" class="error" role="alert"></p>
+
+        <section class="card">
+          <h2>Kód kanálu</h2>
+          <p><code id="code-receiver"></code></p>
+          <div class="row">
+            <button id="copy-code">Kopírovat kód</button>
+            <button id="send-test">Vyzkoušet</button>
+          </div>
+          <p id="test-status" class="note" role="status"></p>
+        </section>
+
+        <details id="ntfy-guide" class="card" open>
+          <summary>Upozornění i na zamčeném telefonu (aplikace ntfy)</summary>
+          <ol>
+            <li>
+              Nainstalujte aplikaci <strong>ntfy</strong>:
+              <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Google Play</a>
+              ·
+              <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener">App Store</a>
+            </li>
+            <li>
+              V ntfy klepněte <strong>+</strong> → <strong>Subscribe to topic</strong> → vložte kód (tlačítko
+              „Kopírovat kód“). Server ponechte <strong id="guide-server">ntfy.sh</strong>.
+            </li>
+            <li>
+              Android: zapněte <strong>Instant delivery in doze mode</strong>, v nastavení aplikace
+              <strong>Keep alerting for highest priority</strong>; povolte notifikacím ntfy přebít režim Nerušit
+              (Do Not Disturb override).
+            </li>
+            <li>iPhone: povolte notifikace pro ntfy. (iOS neumí opakované zvonění; ztlumený telefon nezazvoní.)</li>
+            <li>Klepněte na <strong>Vyzkoušet</strong> – měla by přijít notifikace.</li>
+          </ol>
+          <p class="note">Bez aplikace ntfy přijde zpráva jen tehdy, když máte tuto stránku otevřenou na obrazovce.</p>
+        </details>
+
+        <button id="change-role-receiver" class="link">Změnit roli</button>
+      </section>
+    </main>
+
+    <!-- Full-screen alarm (B) -->
+    <div id="alarm" role="alertdialog" aria-modal="true" aria-labelledby="alarm-text" hidden>
+      <div class="alarm-head">⚠️ ATTENTION</div>
+      <div id="alarm-text"></div>
+      <div id="alarm-time"></div>
+      <button id="alarm-ack">ROZUMÍM</button>
+    </div>
+  </body>
+</html>
